@@ -1,18 +1,34 @@
-# Hades
-_The Shell Keeper._
+# hades-v2-scaffold
 
-Manage your SSH alias hosts, and their keys!
+An Electron application with React and TypeScript
 
-![](http://images1.fanpop.com/images/image_uploads/Hades-Hercules-disney-villains-1024542_720_480.jpg)
+## Recommended IDE Setup
 
+- [VSCode](https://code.visualstudio.com/) + [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) + [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
 
-Using an [Electron](http://electron.atom.io/) application boilerplate based on [React](https://facebook.github.io/react/), [Redux](https://github.com/reactjs/redux), [React Router](https://github.com/reactjs/react-router), [Webpack](http://webpack.github.io/docs/), [React Transform HMR](https://github.com/gaearon/react-transform-hmr) for rapid application development
+## Project Setup
 
-## Screenshot
+### Install
 
-![](https://cloud.githubusercontent.com/assets/3382565/10557547/b1f07a4e-74e3-11e5-8d27-79ab6947d429.gif)
+```bash
+$ npm install
+```
 
+### Development
 
-## License
+```bash
+$ npm run dev
+```
 
-GNU General Public License (GPL) version 3.
+### Build
+
+```bash
+# For windows
+$ npm run build:win
+
+# For macOS
+$ npm run build:mac
+
+# For Linux
+$ npm run build:linux
+```
