@@ -1,22 +1,22 @@
-import { contextBridge } from 'electron'
-import { electronAPI } from '@electron-toolkit/preload'
+import { contextBridge, ipcRenderer } from 'electron'
+import type { IpcResult } from '../renderer/src/lib/types'
 
-// Custom APIs for renderer
-const api = {}
-
-// Use `contextBridge` APIs to expose Electron APIs to
-// renderer only if context isolation is enabled, otherwise
-// just add to the DOM global.
-if (process.contextIsolated) {
-  try {
-    contextBridge.exposeInMainWorld('electron', electronAPI)
-    contextBridge.exposeInMainWorld('api', api)
-  } catch (error) {
-    console.error(error)
+async function invoke<T>(channel: string, ...args: unknown[]): Promise<T> {
+  const result: IpcResult<T> = await ipcRenderer.invoke(channel, ...args)
+  if (result.error) {
+    const err = Object.assign(new Error(result.error.message), { code: result.error.code })
+    throw err
   }
-} else {
-  // @ts-ignore (define in dts)
-  window.electron = electronAPI
-  // @ts-ignore (define in dts)
-  window.api = api
+  return result.data as T
 }
+
+contextBridge.exposeInMainWorld('sshconfig', {
+  init: () => invoke<void>('sshconfig:init'),
+  list: () => invoke<string[]>('sshconfig:list'),
+  get: (alias: string) => invoke<string>('sshconfig:get', alias),
+  add: (alias: string, content: string) => invoke<void>('sshconfig:add', alias, content),
+  update: (alias: string, content: string) => invoke<void>('sshconfig:update', alias, content),
+  remove: (alias: string) => invoke<void>('sshconfig:remove', alias),
+  rebuild: () => invoke<void>('sshconfig:rebuild'),
+  pickKeyFile: () => invoke<string | null>('sshconfig:pickKeyFile'),
+})
