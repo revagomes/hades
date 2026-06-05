@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, type CSSProperties } from 'react'
 import { useShellStore } from '@/store/useShellStore'
 import { GroupFilter } from '@/components/GroupFilter'
 import { HostList } from '@/components/HostList'
@@ -13,7 +13,7 @@ export default function App() {
     setGroup, openAddForm, openEditForm, closeForm,
   } = useShellStore()
 
-  useEffect(() => { loadHosts() }, [])
+  useEffect(() => { loadHosts() }, [loadHosts])
 
   const filteredHosts = activeGroup === 'all'
     ? hosts
@@ -33,12 +33,12 @@ export default function App() {
       {/* Titlebar */}
       <div
         className="flex items-center justify-between px-4 py-2 border-b border-gray-200 dark:border-gray-700"
-        style={{ WebkitAppRegion: 'drag' } as React.CSSProperties}
+        style={{ WebkitAppRegion: 'drag' } as CSSProperties}
       >
         <span className="text-sm font-semibold">Hades</span>
         <button
           onClick={openAddForm}
-          style={{ WebkitAppRegion: 'no-drag' } as React.CSSProperties}
+          style={{ WebkitAppRegion: 'no-drag' } as CSSProperties}
           className="text-xs bg-blue-600 text-white rounded px-3 py-1 hover:bg-blue-700"
         >
           + Add

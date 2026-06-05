@@ -55,7 +55,8 @@ export const useShellStore = create<ShellStore>((set) => ({
       const err = e as { code?: string; message?: string }
       if (err.code === 'ENOT_INITIALIZED') {
         await window.sshconfig.init()
-        set({ hosts: [], groups: ['all'], form: { mode: 'add', hostId: null } })
+        const hosts = await loadAll()
+        set({ hosts, groups: deriveGroups(hosts), form: hosts.length === 0 ? { mode: 'add', hostId: null } : { mode: null, hostId: null } })
       } else {
         set({ lastError: { code: err.code ?? 'UNKNOWN', message: err.message ?? String(e) } })
       }

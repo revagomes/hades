@@ -1,4 +1,4 @@
-import { ipcMain, dialog } from 'electron'
+import { ipcMain, dialog, app } from 'electron'
 import * as sshLib from 'sshconfig'
 import { makeHandlers } from './handlers'
 
@@ -15,7 +15,7 @@ export function setupIpc(): void {
   ipcMain.handle('sshconfig:pickKeyFile', async () => {
     const { canceled, filePaths } = await dialog.showOpenDialog({
       title: 'Select SSH Key File',
-      defaultPath: `${process.env.HOME}/.ssh`,
+      defaultPath: `${app.getPath('home')}/.ssh`,
       filters: [{ name: 'All Files', extensions: ['*'] }],
       properties: ['openFile'],
     })
