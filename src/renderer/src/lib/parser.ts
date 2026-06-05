@@ -35,15 +35,19 @@ export function parse(alias: string, content: string): SshHost {
   return host as SshHost
 }
 
+function singleLine(value: string): string {
+  return value.replace(/[\r\n]/g, '')
+}
+
 export function serialize(host: SshHost): string {
   const lines: string[] = [
     `# id: ${host.id}`,
     `Host ${host.alias}`,
   ]
-  if (host.hostname) lines.push(`  Hostname ${host.hostname}`)
-  if (host.user) lines.push(`  User ${host.user}`)
+  if (host.hostname) lines.push(`  Hostname ${singleLine(host.hostname)}`)
+  if (host.user) lines.push(`  User ${singleLine(host.user)}`)
   if (host.port && host.port !== 22) lines.push(`  Port ${host.port}`)
-  if (host.identityFile) lines.push(`  IdentityFile ${host.identityFile}`)
+  if (host.identityFile) lines.push(`  IdentityFile ${singleLine(host.identityFile)}`)
   if (host.extraLines) lines.push(host.extraLines)
   return lines.join('\n') + '\n'
 }
